@@ -1,11 +1,12 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
-import { LoggerMiddleware } from './logger/logger.middleware.js';
+import { LoggerMiddleware } from './logger/logger.middleware';
+import { PrismaService } from '../prisma/prisma.service';
 
 @Module({
   controllers: [UsersController],
-  providers: [UsersService],
+  providers: [UsersService, PrismaService],
 })
 export class UsersModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
