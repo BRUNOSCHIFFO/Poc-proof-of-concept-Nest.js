@@ -1,5 +1,5 @@
 import { Injectable, OnModuleInit, OnModuleDestroy } from '@nestjs/common';
-import { PrismaClient } from '../../generated/prisma';
+import { PrismaClient } from '@prisma/client';
 
 @Injectable()
 export class PrismaService
@@ -10,7 +10,6 @@ export class PrismaService
     await this.$connect();
     console.log('📦 Connected to MySQL database');
   }
-
   async onModuleDestroy() {
     await this.$disconnect();
   }

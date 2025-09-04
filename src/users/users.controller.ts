@@ -16,7 +16,6 @@ export class UsersController {
   constructor(private usersService: UsersService) {}
   @Get()
   getUsers() {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return this.usersService.getUsers();
   }
 

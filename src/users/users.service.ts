@@ -1,4 +1,8 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto.js';
 import { PrismaService } from '../prisma/prisma.service';
 import { UpdateUserDto } from './dto/update-user.dto.js';
@@ -19,32 +23,35 @@ export class UsersService {
     }
     return await this.prisma.user.create({ data: user });
   }
-  async getOne(IdIngresado: number) {
-    const userFound = await this.prisma.user.findUnique({
-      where: { id: IdIngresado },
+  async getOne(id: number) {
+    const user = await this.prisma.user.findUnique({
+      where: { id },
     });
-    if (!userFound) {
-      throw new ConflictException(`User with id ${IdIngresado} not found`);
+    if (!user) {
+      throw new NotFoundException(`User with ID ${id} not found`);
     }
-    return userFound;
+    return user;
   }
-  async update(IdIngresado: number, user: UpdateUserDto) {
-    const userToUpdate = await this.prisma.user.update({
-      data: { ...user },
-      where: { id: IdIngresado },
-    });
-    if (!userToUpdate) {
-      throw new ConflictException('error');
+  async update(id: number, user: UpdateUserDto) {
+    try {
+      return await this.prisma.user.update({
+        where: { id },
+        data: { ...user },
+      });
+    } catch (error) {
+      console.log(error);
+      throw new NotFoundException(`User with ID ${id} not found`);
     }
-    return userToUpdate;
   }
-  async deleteUser(IdIngresado: number) {
-    const userDelete = await this.prisma.user.delete({
-      where: { id: IdIngresado },
-    });
-    if (!userDelete) {
-      throw new ConflictException('error');
+  async deleteUser(id: number) {
+    try {
+      const deletedUser = await this.prisma.user.delete({
+        where: { id },
+      });
+      return deletedUser;
+    } catch (error) {
+      console.log(error);
+      throw new NotFoundException(`User with ID ${id} not found`);
     }
-    return 'user deleted succesfully';
   }
 }

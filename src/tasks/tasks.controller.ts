@@ -19,15 +19,13 @@ export class TaskController {
   @Get()
   getallTasks(@Query() query: any) {
     console.log(query);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return this.tasksService.getTasks();
   }
 
   @Get('/:id')
   getallTask(@Param('id') id: string) {
     console.log(id);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return this.tasksService.getTask(parseInt(id));
+    return this.tasksService.getOneTask(parseInt(id));
   }
 
   @Post()
@@ -35,17 +33,18 @@ export class TaskController {
     return this.tasksService.createTask(task);
   }
 
-  @Put()
-  updateTask(@Body() task: UpdateTaskDto) {
-    return this.tasksService.updateTask(task);
+  @Put('/:id')
+  updateTask(@Param('id') id: string, @Body() task: UpdateTaskDto) {
+    console.log('Body recibido:', task);
+    return this.tasksService.updateTask(parseInt(id), task);
   }
 
-  @Delete()
-  deleteTask() {
-    return this.tasksService.deleteTask();
+  @Delete('/:id')
+  deleteTask(@Param('id') id: string) {
+    return this.tasksService.deleteTask(parseInt(id));
   }
 
-  @Patch()
+  @Patch('/:id/status')
   updateTaskstatus() {
     return this.tasksService.updateTaskstatus();
   }
