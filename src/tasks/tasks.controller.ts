@@ -35,7 +35,6 @@ export class TaskController {
 
   @Put('/:id')
   updateTask(@Param('id') id: string, @Body() task: UpdateTaskDto) {
-    console.log('Body recibido:', task);
     return this.tasksService.updateTask(parseInt(id), task);
   }
 
