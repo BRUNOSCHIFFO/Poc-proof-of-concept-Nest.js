@@ -17,14 +17,13 @@ import { UpdateTaskDto } from './dto/update-task.dto.js';
 export class TaskController {
   constructor(private tasksService: TasksService) {}
   @Get()
-  getallTasks(@Query() query: any) {
+  getAllTasks(@Query() query: any) {
     console.log(query);
     return this.tasksService.getTasks();
   }
 
   @Get('/:id')
-  getallTask(@Param('id') id: string) {
-    console.log(id);
+  getOneTask(@Param('id') id: string) {
     return this.tasksService.getOneTask(parseInt(id));
   }
 

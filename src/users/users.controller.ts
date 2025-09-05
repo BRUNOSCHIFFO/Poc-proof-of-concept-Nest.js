@@ -15,22 +15,23 @@ import { UpdateUserDto } from './dto/update-user.dto.js';
 export class UsersController {
   constructor(private usersService: UsersService) {}
   @Get()
-  getUsers() {
-    return this.usersService.getUsers();
+  getAllUsers() {
+    return this.usersService.getAllUsers();
+  }
+
+  @Get('/:id')
+  getOneUser(@Param('id') id: string) {
+    return this.usersService.getOneUser(parseInt(id));
   }
 
   @Post()
   createUser(@Body() user: CreateUserDto) {
     return this.usersService.createUser(user);
   }
-  @Get('/:id')
-  getOne(@Param('id') id: string) {
-    return this.usersService.getOne(parseInt(id));
-  }
 
   @Put('/:id')
   updateUser(@Param('id') id: string, @Body() user: UpdateUserDto) {
-    return this.usersService.update(parseInt(id), user);
+    return this.usersService.updateUser(parseInt(id), user);
   }
 
   @Delete('/:id')

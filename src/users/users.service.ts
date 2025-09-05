@@ -10,10 +10,19 @@ import { UpdateUserDto } from './dto/update-user.dto.js';
 export class UsersService {
   constructor(private prisma: PrismaService) {}
 
-  async getUsers() {
+  async getAllUsers() {
     return await this.prisma.user.findMany();
   }
 
+  async getOneUser(id: number) {
+    const user = await this.prisma.user.findUnique({
+      where: { id },
+    });
+    if (!user) {
+      throw new NotFoundException(`User with ID ${id} not found`);
+    }
+    return user;
+  }
   async createUser(user: CreateUserDto) {
     const existingUser = await this.prisma.user.findUnique({
       where: { email: user.email },
@@ -23,16 +32,8 @@ export class UsersService {
     }
     return await this.prisma.user.create({ data: user });
   }
-  async getOne(id: number) {
-    const user = await this.prisma.user.findUnique({
-      where: { id },
-    });
-    if (!user) {
-      throw new NotFoundException(`User with ID ${id} not found`);
-    }
-    return user;
-  }
-  async update(id: number, user: UpdateUserDto) {
+
+  async updateUser(id: number, user: UpdateUserDto) {
     try {
       return await this.prisma.user.update({
         where: { id },
@@ -43,6 +44,7 @@ export class UsersService {
       throw new NotFoundException(`User with ID ${id} not found`);
     }
   }
+
   async deleteUser(id: number) {
     try {
       const deletedUser = await this.prisma.user.delete({

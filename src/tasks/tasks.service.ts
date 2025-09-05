@@ -11,9 +11,11 @@ import { Prisma } from '@prisma/client';
 @Injectable()
 export class TasksService {
   constructor(private prisma: PrismaService) {}
+
   async getTasks() {
     return await this.prisma.task.findMany();
   }
+
   async getOneTask(id: number) {
     const task = await this.prisma.task.findUnique({
       where: { id },
@@ -23,6 +25,7 @@ export class TasksService {
     }
     return task;
   }
+
   async createTask(task: CreateTaskDto) {
     try {
       return await this.prisma.task.create({ data: task });
@@ -36,9 +39,9 @@ export class TasksService {
       throw error;
     }
   }
+
   async updateTask(id: number, task: UpdateTaskDto) {
     try {
-      console.log('Updating task with ID:', id, 'with data:', task);
       return await this.prisma.task.update({
         where: { id },
         data: { ...task },
@@ -48,6 +51,7 @@ export class TasksService {
       throw new NotFoundException(`Task with ID ${id} not found`);
     }
   }
+
   async deleteTask(id: number) {
     try {
       const deletedTask = await this.prisma.task.delete({
@@ -64,6 +68,7 @@ export class TasksService {
       throw error;
     }
   }
+
   updateTaskstatus() {
     return 'actualizando estado';
   }
