@@ -69,7 +69,7 @@ export class TasksService {
     }
   }
 
-  updateTaskstatus() {
+  updatestatusTask() {
     return 'actualizando estado';
   }
 }

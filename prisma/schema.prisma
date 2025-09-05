@@ -22,7 +22,7 @@ model User {
 
 model Task {
   id               Int      @id @default(autoincrement())
-  title            String   @unique
+  title            String   
   description      String
   iduser           Int
   user             User   @relation(fields: [iduser], references: [id])

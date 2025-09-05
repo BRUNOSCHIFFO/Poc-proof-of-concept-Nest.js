@@ -43,7 +43,7 @@ export class TaskController {
   }
 
   @Patch('/:id/status')
-  updateTaskstatus() {
-    return this.tasksService.updateTaskstatus();
+  updateSatusTask() {
+    return this.tasksService.updatestatusTask();
   }
 }

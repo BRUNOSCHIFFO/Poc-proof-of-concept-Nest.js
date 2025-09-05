@@ -11,12 +11,15 @@ export class UsersService {
   constructor(private prisma: PrismaService) {}
 
   async getAllUsers() {
-    return await this.prisma.user.findMany();
+    return await this.prisma.user.findMany({
+      include: { tasks: true },
+    });
   }
 
   async getOneUser(id: number) {
     const user = await this.prisma.user.findUnique({
       where: { id },
+      include: { tasks: true },
     });
     if (!user) {
       throw new NotFoundException(`User with ID ${id} not found`);
